@@ -1,7 +1,520 @@
 <!DOCTYPE html>
-<html>
-  <body>
-    <h1>Welcome to my Personal Page</h1>
-    <p>Hosted on GitHub Pages!</p>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Personal website — portfolio, CV, and contact." />
+  <title>Your Name</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* ── Tokens ──────────────────────────────────────────── */
+    :root {
+      --ink:      #1a1a1a;
+      --muted:    #6b6b6b;
+      --rule:     #e0ddd8;
+      --surface:  #f8f7f4;
+      --page:     #ffffff;
+      --accent:   #2a5caa;   /* deep archival blue */
+      --accent-h: #1d4280;
+      --radius:   4px;
+      --max:      860px;
+      --gap:      clamp(2rem, 5vw, 4rem);
+    }
+ 
+    /* ── Reset ───────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      font-size: clamp(1rem, 1.1vw + 0.6rem, 1.125rem);
+      line-height: 1.7;
+      color: var(--ink);
+      background: var(--page);
+    }
+    img { display: block; max-width: 100%; }
+    a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+    a:hover { color: var(--accent-h); }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+ 
+    /* ── Skip link ───────────────────────────────────────── */
+    .skip-link {
+      position: absolute; top: -100%; left: 1rem;
+      background: var(--accent); color: #fff;
+      padding: 0.5rem 1rem; border-radius: var(--radius);
+      font-size: 0.875rem; font-weight: 500;
+      transition: top 0.15s;
+      z-index: 100;
+    }
+    .skip-link:focus { top: 1rem; }
+ 
+    /* ── Nav ─────────────────────────────────────────────── */
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--rule);
+    }
+    .nav-inner {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0.85rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .nav-logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.1rem;
+      color: var(--ink);
+      text-decoration: none;
+      letter-spacing: 0.01em;
+    }
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 1.75rem;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.02em;
+    }
+    .nav-links a:hover { color: var(--ink); }
+ 
+    /* ── Layout shell ────────────────────────────────────── */
+    main {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+    section {
+      padding: var(--gap) 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    section:last-of-type { border-bottom: none; }
+ 
+    /* ── Section labels ──────────────────────────────────── */
+    .label {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+ 
+    /* ── Hero ────────────────────────────────────────────── */
+    #hero {
+      padding-top: clamp(3rem, 8vw, 6rem);
+      padding-bottom: clamp(3rem, 8vw, 6rem);
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 3rem;
+      border-bottom: 1px solid var(--rule);
+    }
+    .hero-text h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2.4rem, 5vw + 1rem, 4rem);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+    .hero-text h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-text p {
+      font-size: clamp(1rem, 1.5vw + 0.5rem, 1.2rem);
+      color: var(--muted);
+      max-width: 42ch;
+      margin-bottom: 1.75rem;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.6rem 1.4rem;
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background: var(--accent-h);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(42,92,170,0.25);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border: 1.5px solid var(--accent);
+    }
+    .btn-outline:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+ 
+    /* Profile photo */
+    .hero-photo {
+      width: clamp(110px, 15vw, 160px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--rule);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      /* Shown only when image loads — hide broken icon gracefully */
+    }
+    .hero-photo-wrap {
+      flex-shrink: 0;
+    }
+    /* Fallback ring when no image */
+    .hero-photo-fallback {
+      width: clamp(110px, 15vw, 160px);
+      aspect-ratio: 1;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 3px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      color: var(--muted);
+      user-select: none;
+    }
+ 
+    /* ── About ───────────────────────────────────────────── */
+    #about p { max-width: 64ch; color: var(--muted); }
+    #about p + p { margin-top: 0.75rem; }
+    .about-head {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.5rem, 2.5vw + 0.5rem, 2rem);
+      margin-bottom: 1rem;
+      color: var(--ink);
+    }
+ 
+    /* ── Work / Projects ─────────────────────────────────── */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+      gap: 1.25rem;
+      margin-top: 1.5rem;
+    }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--rule);
+      border-radius: calc(var(--radius) * 2);
+      padding: 1.5rem;
+      transition: box-shadow 0.15s, transform 0.15s;
+    }
+    .card:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+      transform: translateY(-2px);
+    }
+    .card-tag {
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    .card h3 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.15rem;
+      margin-bottom: 0.5rem;
+      color: var(--ink);
+    }
+    .card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .card-link {
+      display: inline-block;
+      margin-top: 1rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .card-link:hover { text-decoration: underline; }
+ 
+    /* ── CV ──────────────────────────────────────────────── */
+    #cv .cv-block {
+      display: grid;
+      grid-template-columns: minmax(6rem, 9rem) 1fr;
+      gap: 0 2rem;
+      margin-top: 1.5rem;
+    }
+    .cv-year {
+      font-size: 0.85rem;
+      color: var(--muted);
+      padding-top: 0.15rem;
+      line-height: 1.5;
+    }
+    .cv-body { border-left: 2px solid var(--rule); padding-left: 1.5rem; }
+    .cv-entry {
+      position: relative;
+      padding-bottom: 1.5rem;
+    }
+    .cv-entry::before {
+      content: '';
+      position: absolute;
+      left: -1.625rem;
+      top: 0.45rem;
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid var(--page);
+      box-shadow: 0 0 0 1.5px var(--accent);
+    }
+    .cv-entry h3 {
+      font-weight: 500;
+      font-size: 1rem;
+      color: var(--ink);
+    }
+    .cv-entry span {
+      font-size: 0.85rem;
+      color: var(--muted);
+    }
+    .cv-entry p {
+      margin-top: 0.4rem;
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    .cv-download {
+      margin-top: 2rem;
+    }
+ 
+    /* ── Contact ─────────────────────────────────────────── */
+    #contact .contact-intro {
+      max-width: 48ch;
+      color: var(--muted);
+      margin-bottom: 1.75rem;
+    }
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+ 
+    /* ── Footer ──────────────────────────────────────────── */
+    footer {
+      max-width: var(--max);
+      margin: 0 auto;
+      padding: 2rem 1.5rem;
+      font-size: 0.85rem;
+      color: var(--muted);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+ 
+    /* ── Responsive ──────────────────────────────────────── */
+    @media (max-width: 600px) {
+      #hero {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+      }
+      .hero-photo-wrap { order: -1; }
+      .hero-photo, .hero-photo-fallback { width: 90px; }
+      #cv .cv-block { grid-template-columns: 1fr; }
+      .cv-year { margin-bottom: 0.25rem; }
+      .cv-body { border-left: none; padding-left: 0; }
+      .cv-entry::before { display: none; }
+    }
+ 
+    /* ── Reduced motion ──────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .card { transition: none; }
+    }
+  </style>
+</head>
+<body>
+ 
+<a class="skip-link" href="#main-content">Skip to main content</a>
+ 
+<!-- ── Navigation ─────────────────────────────────────── -->
+<nav aria-label="Site navigation">
+  <div class="nav-inner">
+    <a class="nav-logo" href="#hero">Your Name</a>
+    <ul class="nav-links" role="list">
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#cv">CV</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+ 
+<main id="main-content">
+ 
+  <!-- ── Hero ─────────────────────────────────────────── -->
+  <section id="hero" aria-label="Introduction">
+    <div class="hero-text">
+      <h1>Hi, I'm <em>Your Name</em></h1>
+      <p>
+        A short, memorable line about what you do — e.g. software engineer,
+        researcher, or designer based in Tokyo.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#work">See my work</a>
+        <a class="btn btn-outline" href="#contact">Get in touch</a>
+      </div>
+    </div>
+    <div class="hero-photo-wrap" aria-hidden="true">
+      <!--
+        Place assets/profile.jpg (or .png) at the repo root alongside index.html.
+        The <img> below uses both paths with an onerror fallback to initials.
+      -->
+      <img
+        class="hero-photo"
+        id="profile-img"
+        src="assets/profile.jpg"
+        alt="Portrait of Your Name"
+        width="160"
+        height="160"
+        onerror="this.onerror=null;this.src='assets/profile.png';this.onerror=function(){this.style.display='none';document.getElementById('profile-fallback').style.display='flex';}"
+      />
+      <div class="hero-photo-fallback" id="profile-fallback" style="display:none;" aria-hidden="true">YN</div>
+    </div>
+  </section>
+ 
+  <!-- ── About ─────────────────────────────────────────── -->
+  <section id="about" aria-labelledby="about-heading">
+    <span class="label">About</span>
+    <h2 class="about-head" id="about-heading">A bit about me</h2>
+    <p>
+      Replace this with a paragraph or two about yourself. Where are you based?
+      What problems do you love to work on? What's your background?
+    </p>
+    <p>
+      You can talk about your approach to your craft, collaborators you enjoy
+      working with, or what you're currently exploring.
+    </p>
+  </section>
+ 
+  <!-- ── Work ──────────────────────────────────────────── -->
+  <section id="work" aria-labelledby="work-heading">
+    <span class="label">Selected work</span>
+    <h2 class="about-head" id="work-heading">Projects</h2>
+ 
+    <div class="projects-grid" role="list">
+ 
+      <article class="card" role="listitem">
+        <div class="card-tag">Research</div>
+        <h3>Project One</h3>
+        <p>A short description of what this project does, the problem it solves, and the tools or methods you used.</p>
+        <a class="card-link" href="#" aria-label="View Project One">View →</a>
+      </article>
+ 
+      <article class="card" role="listitem">
+        <div class="card-tag">Engineering</div>
+        <h3>Project Two</h3>
+        <p>A short description of what this project does, the problem it solves, and the tools or methods you used.</p>
+        <a class="card-link" href="#" aria-label="View Project Two">View →</a>
+      </article>
+ 
+      <article class="card" role="listitem">
+        <div class="card-tag">Design</div>
+        <h3>Project Three</h3>
+        <p>A short description of what this project does, the problem it solves, and the tools or methods you used.</p>
+        <a class="card-link" href="#" aria-label="View Project Three">View →</a>
+      </article>
+ 
+    </div>
+  </section>
+ 
+  <!-- ── CV ────────────────────────────────────────────── -->
+  <section id="cv" aria-labelledby="cv-heading">
+    <span class="label">Experience</span>
+    <h2 class="about-head" id="cv-heading">CV</h2>
+ 
+    <div class="cv-block">
+      <!-- Year column (desktop) -->
+      <div class="cv-years" aria-hidden="true">
+        <div style="padding-top:0.15rem;padding-bottom:1.5rem;font-size:.85rem;color:var(--muted);">2022 – present</div>
+        <div style="padding-top:0.15rem;padding-bottom:1.5rem;font-size:.85rem;color:var(--muted);">2019 – 2022</div>
+        <div style="padding-top:0.15rem;padding-bottom:1.5rem;font-size:.85rem;color:var(--muted);">2015 – 2019</div>
+      </div>
+ 
+      <!-- Entry column -->
+      <div class="cv-body">
+        <div class="cv-entry">
+          <h3>Job Title</h3>
+          <span>Company Name · 2022 – present</span>
+          <p>One or two sentences about your responsibilities and impact here.</p>
+        </div>
+        <div class="cv-entry">
+          <h3>Previous Role</h3>
+          <span>Another Company · 2019 – 2022</span>
+          <p>One or two sentences about your responsibilities and impact here.</p>
+        </div>
+        <div class="cv-entry">
+          <h3>Degree, Field of Study</h3>
+          <span>University Name · 2015 – 2019</span>
+          <p>Brief note about your studies, thesis, or honours if relevant.</p>
+        </div>
+      </div>
+    </div>
+ 
+    <div class="cv-download">
+      <a class="btn btn-outline" href="assets/cv.pdf" download aria-label="Download CV as PDF">
+        ↓ Download full CV (PDF)
+      </a>
+    </div>
+  </section>
+ 
+  <!-- ── Contact ────────────────────────────────────────── -->
+  <section id="contact" aria-labelledby="contact-heading">
+    <span class="label">Contact</span>
+    <h2 class="about-head" id="contact-heading">Get in touch</h2>
+    <p class="contact-intro">
+      I'm always happy to hear from potential collaborators, employers, or
+      anyone with an interesting problem to discuss. The best way to reach me
+      is by email.
+    </p>
+    <div class="contact-links">
+      <a class="btn btn-primary" href="mailto:you@example.com">Email me</a>
+      <a class="btn btn-outline" href="https://github.com/yourhandle" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <a class="btn btn-outline" href="https://linkedin.com/in/yourhandle" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+    </div>
+  </section>
+ 
+</main>
+ 
+<footer>
+  <span>© <span id="year"></span> Your Name</span>
+  <span>Built with HTML &amp; CSS · Hosted on GitHub Pages</span>
+</footer>
+ 
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+ 
+</body>
 </html>
+ 
